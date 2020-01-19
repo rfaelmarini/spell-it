@@ -28,11 +28,20 @@ $ npm start
 
 ## Utilização
 
-  Com o servidor inicializado será possível utilizar a rota:
+  Com o servidor inicializado será possível utilizar as rotas:
 
   http://localhost:8000/number/{numero}
 
-  Onde {numero} é o numeral que deseja enviar para o servidor retorná-lo por extenso.
+  Onde {numero} é o numeral que deseja enviar para o servidor retorná-lo por extenso em idioma Português.
+
+  http://localhost:8000/number/{idioma}/{numero}
+
+  Onde {idioma} representa o idioma nos formatos:
+    - pt-BR
+    - en-US
+    - es-ES
+
+  E {numero} é o numeral que deseja enviar para o servidor retorná-lo por extenso.
 
 ## Testes
 

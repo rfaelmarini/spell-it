@@ -32,13 +32,26 @@ describe('Numbers', () => {
   describe('Number model', () => {
     it('Should convert number to words', () => {
       let number = new Number(25);
-      number.toWords().should.eql('vinte e cinco');
+      number.toWords('pt-BR').should.eql('vinte e cinco');
+
       number = new Number(99999);
-      number.toWords().should.eql('noventa e nove mil e novecentos e noventa e nove');
+      number.toWords('pt-BR').should.eql('noventa e nove mil e novecentos e noventa e nove');
+
       number = new Number('-99999');
-      number.toWords().should.eql('menos noventa e nove mil e novecentos e noventa e nove');
+      number.toWords('pt-BR').should.eql('menos noventa e nove mil e novecentos e noventa e nove');
+
       number = new Number(0000000000000000);
-      number.toWords().should.eql('zero');
+      number.toWords('pt-BR').should.eql('zero');
+    });
+    it('Should convert number to words in different languages', () => {
+      let number = new Number(25);
+      number.toWords('pt-BR').should.eql('vinte e cinco');
+
+      number = new Number(25);
+      number.toWords('en-US').should.eql('twenty and five');
+
+      number = new Number(25);
+      number.toWords('es-ES').should.eql('veinte y cinco');
     });
   });
 });

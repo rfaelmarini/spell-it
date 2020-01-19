@@ -1,3 +1,5 @@
+const utils = require('../utils');
+
 module.exports = class Number {
   constructor(value) {
     if (isValidNumber(value)) {
@@ -7,7 +9,11 @@ module.exports = class Number {
     }
   }
 
-  toWords() {
+  toWords(lang) {
+    if (['pt-BR', 'en-US', 'es-ES'].indexOf(lang) == -1) {
+      throw new Error("Only support 'pt-BR', 'en-US' or 'es-ES' languages");
+    }
+
     const unity = ['zero', 'um', 'dois', 'tres', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'];
     const hundread = [
       'cem', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos',
@@ -26,7 +32,7 @@ module.exports = class Number {
     const isThousand = (number.length >= 4 && number.length <= 5 && (number != '00000' || number != '0000'));
     if (isThousand) {
       if (number.length == 5) {
-        words += getTen(number.substring(0,2));
+        words += getTen(number.substring(0,2), lang);
         if (number.charAt(0) == 1 || number.charAt(1) == 0) {
           number = number.slice(1);
         }
@@ -34,23 +40,23 @@ module.exports = class Number {
       }
 
       if (number.length == 4) {
-        words += ' e ' + unity[number.charAt(0)];
+        words += ' ' + utils.translateText('e', lang) + ' ' + utils.translateText(unity[number.charAt(0)], lang);
         number = number.slice(1);
       }
 
-      words += ' ' + thousand[0];
+      words += ' ' + utils.translateText(thousand[0], lang);
     }
 
     const isHundread = (number.length == 3 && (number != '000'));
     if (isHundread) {
       if (words.length) {
-        words += ' e ';
+        words += ' ' + utils.translateText('e', lang) + ' ';
       }
 
       if ((number/100) == 1) {
-        words += hundread[0];
+        words += utils.translateText(hundread[0], lang);
       } else {
-        words += hundread[number.charAt(0)];
+        words += utils.translateText(hundread[number.charAt(0)], lang);
       }
 
       number = number.slice(1);
@@ -59,10 +65,10 @@ module.exports = class Number {
     const isTen = (number.length == 2  && (number != '00'));
     if (isTen) {
       if (words.length) {
-        words += ' e ';
+        words += ' ' + utils.translateText('e', lang) + ' ';
       }
 
-      words += getTen(number.substring(0,2));
+      words += getTen(number.substring(0,2), lang);
       if (number.charAt(0) == 1 || number.charAt(1) == 0) {
         number = number.slice(1);
       }
@@ -72,17 +78,17 @@ module.exports = class Number {
     const isUnity = (number.length == 1);
     if (isUnity) {
       if (words.length) {
-        words += ' e ';
+        words += ' ' + utils.translateText('e', lang) + ' ';
       }
 
-      words += unity[number.charAt(0)];
+      words += utils.translateText(unity[number.charAt(0)], lang);
       number = number.slice(1);
     }
 
     if (!words.length) {
-      words = unity[0];
+      words = utils.translateText(unity[0], lang);
     } else if (isNegative) {
-      words = 'menos ' + words;
+      words = utils.translateText('menos', lang) + ' ' + words;
     }
 
     return words;
@@ -94,7 +100,7 @@ function isValidNumber(value) {
   return regex.test(value);
 }
 
-function getTen(value) {
+function getTen(value, lang) {
   if (value.length != 2) {
     return false;
   }
@@ -105,11 +111,11 @@ function getTen(value) {
   ];
   let words = '';
   if ((value/10) == 1) {
-    words += ten[0];
+    words += utils.translateText(ten[0], lang);
   } else if ((value/10) < 2) {
-    words += ten[value.charAt(1)];
+    words += utils.translateText(ten[value.charAt(1)], lang);
   } else {
-    words += ten[value.charAt(0) -2 + 10];
+    words += utils.translateText(ten[value.charAt(0) -2 + 10], lang);
   }
 
   return words;
