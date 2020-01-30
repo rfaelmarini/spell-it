@@ -1,0 +1,33 @@
+{
+  "name": "spell-it",
+  "version": "1.0.0",
+  "description": "Servidor HTTP que recebe uma requisição com um número e retorna este por extenso",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha 'src/test/**/*.js' --exit",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfaelmarini/spell-it.git"
+  },
+  "keywords": [
+    "numero",
+    "extenso"
+  ],
+  "author": "Rafael Marini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rfaelmarini/spell-it/issues"
+  },
+  "homepage": "https://github.com/rfaelmarini/spell-it#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.0.0",
+    "nodemon": "^2.0.2"
+  }
+}
